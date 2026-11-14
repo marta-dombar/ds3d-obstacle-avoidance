@@ -1,0 +1,6 @@
+numpy>=2.0
+scipy>=1.11
+matplotlib>=3.8
+pybullet>=3.2.6
+# Lab 2 obstacle-avoidance package (patched copy shipped in this repo):
+-e ./exercise2_obstacle
