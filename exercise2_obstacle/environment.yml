@@ -1,0 +1,13 @@
+name: DS_obstacle_avoidance
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - numpy=2.2
+  - matplotlib=3.10
+  - notebook=7
+  - ipywidgets=8
+  - ipympl
+  - pip
+

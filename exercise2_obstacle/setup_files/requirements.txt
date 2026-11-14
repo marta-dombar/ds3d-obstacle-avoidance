@@ -1,0 +1,7 @@
+####### requirements-pip.txt #######
+###### Requirements without Version Specifiers ######
+numpy>=2.0
+matplotlib>=3.8
+notebook>=7
+ipywidgets>=8
+ipympl
