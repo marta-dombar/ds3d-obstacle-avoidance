@@ -14,7 +14,7 @@ from ds3d.scenes import SCENES
 from ds3d.plotting import plot_scene_3d, plot_lyapunov_and_distance, plot_modulation_field
 
 
-def run_scene(key, out_dir="figures", rho=1.0, dt=0.005, t_max=15.0, tol=1e-3, verbose=True):
+def run_scene(key, out_dir="figures", rho=1.0, dt=0.005, t_max=15.0, tol=1e-3, verbose=True, keep_open=False):
     scene = SCENES[key]()
     ds, obstacles = scene["ds"], scene["obstacles"]
     att = ds.attractor
@@ -47,7 +47,8 @@ def run_scene(key, out_dir="figures", rho=1.0, dt=0.005, t_max=15.0, tol=1e-3, v
     if key == "A":
         plot_modulation_field(scene, fname=f"{out_dir}/3d_scene{k}_field_slice.png")
     _write_table(scene, results, nominal, vdot_max, f"{out_dir}/3d_scene{k}_metrics.md")
-    plt.close("all")
+    if not keep_open:          # keep the windows when --show is used
+        plt.close("all")
     return scene, results, nominal
 
 
@@ -65,7 +66,7 @@ def _write_table(scene, results, nominal, vdot_max, path):
 
 def run(out_dir="figures", scenes=("A", "B", "C"), show=False):
     for key in scenes:
-        run_scene(key, out_dir)
+        run_scene(key, out_dir, keep_open=show)
     if show:
         plt.show(block=True)
 
