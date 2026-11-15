@@ -6,7 +6,7 @@ Team Group 8: Jaime Solé Pérez; Erika Santano Martin; Marta Domínguez Bartolo
 ______________________________________________________________________________________________________________
 
 
-An autonomous dynamical system [Derivate (x) = f(x)] in R³ with a globally stable attractor [x*] is modulated around 3D obstacles, [Derivate (x) = M(x)·f(x)] with [M = E·D·E^(-1)], and used as the trajectory generator of the end effector of a Franka Emika Panda in PyBullet [Derivate (q) = J^t·(Derivate (x))].
+An autonomous dynamical system [Derivate (x) = f(x)] in R³ with a globally stable attractor [x*] is modulated around 3D obstacles, [Derivate (x) = M(x)·f(x)] with [M = E·D·E^(-1)], and used as the trajectory generator of the end effector of a Franka Emika Panda in PyBullet [Derivate (q) = J†·(Derivate (x))].
 
 
 
