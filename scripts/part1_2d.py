@@ -1,8 +1,6 @@
-"""
-Part 1 (workflow steps 1-3): the Lab 1 DS ported to Python and plugged into the
-2D obstacle-avoidance package of Lab 2 (patched copy in ./exercise2_obstacle).
 
-Uses lpv_model.mat (exported from MATLAB with matlab/export_lpv_model.m) if it
+"""
+Uses lpv_model.mat (exported from MATLAB, matlab/export_lpv_model.m) if it
 exists, otherwise a synthetic LPV-DS with the same structure.
 """
 import os
@@ -16,8 +14,7 @@ from dynamic_obstacle_avoidance.obstacle_avoidance.linear_modulations import obs
 from ds3d.dynamics import LPVDS
 
 
-# Plot ranges, start points and obstacle for each model.
-# Edit CONFIG["learned"] if you re-learn the DS with different demonstrations.
+
 CONFIG = {
     "learned": dict(x_range=[-1.9, 0.3], y_range=[-0.35, 0.95],
                     starts=[[-1.75, 0.75], [-1.5, 0.45], [-1.2, -0.05], [-1.75, 0.15], [0.2, 0.0]],
@@ -47,7 +44,7 @@ def run(out_dir="figures", show=False, mat_path="lpv_model.mat"):
     x_range, y_range = cfg["x_range"], cfg["y_range"]
     starts = np.array(cfg["starts"], dtype=float).T
 
-    # (a) nominal DS: streamlines + trajectories, no obstacle
+   
     fig, ax = plt.subplots(figsize=(7, 5))
     X, Y = np.meshgrid(np.linspace(*x_range, 60), np.linspace(*y_range, 45))
     U = np.zeros_like(X); V = np.zeros_like(Y)
@@ -67,9 +64,7 @@ def run(out_dir="figures", show=False, mat_path="lpv_model.mat"):
     ax.legend(loc="upper right")
     fig.savefig(f"{out_dir}/2d_nominal_ds.png", dpi=150, bbox_inches="tight")
 
-    # (b) same DS modulated around an ellipse with the Lab 2 package.
-    # Trajectories are integrated here with a small step (the package's own
-    # streamline helper uses dt = 0.05 at constant speed 6, too coarse for a ~1 m workspace).
+   
     obs = [Obstacle(a=list(cfg["obstacle_axes"]), p=[1, 1], x0=list(cfg["obstacle_center"]),
                     th_r=cfg["th_r"], sf=cfg["sf"])]
     fig, ax = Simulation_vectorFields(x_range, y_range, 50, obs, xAttractor=att,

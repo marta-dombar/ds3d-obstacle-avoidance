@@ -1,19 +1,20 @@
 """
-main.py: reproduces every simulation and figure of the report.
+main.py: reproduces every simulation and prints the figures shown in the report.
 
-    python main.py                 # everything, headless (figures/ + tables in the terminal)
-    python main.py --part 2d       # Lab 1 DS + Lab 2 package, 2D (workflow steps 1-3)
-    python main.py --part 3d       # 3D point-mass simulations, scenes A, B, C (step 4)
-    python main.py --part robot    # Panda in PyBullet, scene A (steps 5-6)
-    python main.py --part robot --gui          # same, with the PyBullet window in real time
-    python main.py --part anim     # animated 3D trajectories for the video
-    python main.py --show          # also open the matplotlib windows
+
+    python main.py                 # everything, 
+    python main.py --part 2d       # Lab 1 DS + Lab 2 package, 2D 
+    python main.py --part 3d       # 3D point-mass simulations
+    python main.py --part robot    # Panda in PyBullet,
+    python main.py --part robot --gui          # same, with PyBullet in real time
+    python main.py --part anim     # animated 3D trajectories 
+    python main.py --show          #  open the matplotlib 
 """
 import argparse
 import os
 import sys
 
-# Windows consoles default to cp1252; make printed output UTF-8 safe
+
 for _stream in (sys.stdout, sys.stderr):
     try:
         _stream.reconfigure(encoding="utf-8", errors="replace")

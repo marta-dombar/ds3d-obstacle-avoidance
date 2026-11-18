@@ -1,18 +1,17 @@
 """
-Part 3 (workflow steps 5-6): the 3D modulated DS as trajectory generator for the
-end-effector of a Franka Emika Panda simulated in PyBullet.
+Part 3: 3D modulated DS as trajectory generator for the
+end-effector
 
-Control loop (240 Hz):
-    x          = forward kinematics of the end-effector (grasp target)
-    x_dot_mod  = M(x) f(x)                       (ds3d.modulated_velocity)
-    x_dot_mod  = clip_norm(x_dot_mod, v_max)     (keeps direction -> V still decreases)
-    w          = K_ori * orientation error       (keeps the gripper pointing down)
-    q_dot      = J^+(q) [x_dot_mod; w]           (damped least-squares pseudo-inverse)
+Control loop:
+    x          = forward kinematics of the end-effector 
+    x_dot_mod  = M(x) f(x)                      
+    x_dot_mod  = clip_norm(x_dot_mod, v_max)     
+    w          = K_ori * orientation error       
+    q_dot      = J^+(q) [x_dot_mod; w]          
     q_dot      = joint-velocity and joint-position limits
     send q_dot to the 7 arm joints (VELOCITY_CONTROL), step the simulator
 
-Only the end-effector point is modulated: the links themselves are NOT protected.
-We therefore log the closest distance between every robot link and the obstacle.
+
 """
 import time
 import numpy as np
@@ -21,11 +20,11 @@ import pybullet_data
 
 from ds3d.modulation import modulated_velocity
 
-EE_LINK = 11                      # panda_grasptarget (between the fingers)
-ARM = list(range(7))              # panda_joint1..7
+EE_LINK = 11                      
+ARM = list(range(7))             
 FINGERS = [9, 10]
-MOVABLE = ARM + FINGERS           # calculateJacobian needs q of all movable joints
-DOWN = p.getQuaternionFromEuler([np.pi, 0, 0])   # gripper pointing down
+MOVABLE = ARM + FINGERS           
+DOWN = p.getQuaternionFromEuler([np.pi, 0, 0])  
 
 
 class PandaDSController:
@@ -51,7 +50,7 @@ class PandaDSController:
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
             p.resetDebugVisualizerCamera(1.3, 60, -25, self.ds.attractor.tolist())
 
-    # ------------------------------------------------------------------ scene
+    # ------------------------------------------------------------------ 
     def _build_scene_visuals(self):
         self.obs_ids = []
         for o in self.obstacles:
@@ -65,7 +64,7 @@ class PandaDSController:
                                           rgbaColor=[0.69, 0.49, 0.49, 0.9])
                 col = p.createCollisionShape(p.GEOM_MESH, vertices=verts, meshScale=o.a.tolist())
                 orn = _rot_to_quat(o.R)
-            # mass 0 => static; used for drawing and for link-distance queries
+            
             self.obs_ids.append(p.createMultiBody(0, col, vis, o.c.tolist(), orn))
             p.setCollisionFilterGroupMask(self.obs_ids[-1], -1, 0, 0)   # robot passes through: we only measure
             # inflated (safety) boundary, drawn as a faint shell
@@ -76,7 +75,7 @@ class PandaDSController:
         vis = p.createVisualShape(p.GEOM_SPHERE, radius=0.015, rgbaColor=[1, 0.84, 0, 1])
         p.createMultiBody(0, -1, vis, self.ds.attractor.tolist())
 
-    # ------------------------------------------------------------- kinematics
+    # -------------------------------------------------------------
     def q_arm(self):
         return np.array([p.getJointState(self.robot, j)[0] for j in ARM])
 
@@ -110,7 +109,7 @@ class PandaDSController:
         p.setJointMotorControlArray(self.robot, FINGERS, p.POSITION_CONTROL, targetPositions=[0.02, 0.02])
         return np.linalg.norm(self.ee_pose()[0] - x_start)
 
-    # ---------------------------------------------------------------- control
+    # ---------------------------------------------------------------- 
     def control(self, x, orn):
         xd = modulated_velocity(x, self.ds, self.obstacles, rho=self.rho)
         n = np.linalg.norm(xd)
@@ -122,16 +121,15 @@ class PandaDSController:
         ang = (ang + np.pi) % (2 * np.pi) - np.pi
         w = self.k_ori * ang * np.array(axis)
         J = self.jacobian()
-        if self.k_ori > 0:     # 6D task: position from the DS + keep gripper down
+        if self.k_ori > 0:     
             v, J = np.concatenate([xd, w]), J
-        else:                  # 3D task: position only, q_dot = J_p^+ x_dot_mod
+        else:                 
             v, J = xd, J[:3]
-        qd = J.T @ np.linalg.solve(J @ J.T + self.lam ** 2 * np.eye(len(v)), v)   # damped J^+
-        # joint-velocity limits (uniform scaling keeps the Cartesian direction)
+        qd = J.T @ np.linalg.solve(J @ J.T + self.lam ** 2 * np.eye(len(v)), v)  
         s = np.max(np.abs(qd) / self.qd_max)
         if s > 1:
             qd /= s
-        # joint-position limits: block motion that would push further into a limit
+       
         q = self.q_arm()
         q_next = q + qd * self.dt
         lo, hi = self.q_lo + self.margin, self.q_hi - self.margin
@@ -188,7 +186,7 @@ def summarize(label, log, attractor):
                 max_qd_ratio=np.max(np.abs(log["qd"]) / np.array([2.175] * 4 + [2.61] * 3)))
 
 
-# ---------------------------------------------------------------- helpers
+# ---------------------------------------------------------------- 
 def _sphere_mesh(n_u=24, n_v=12):
     verts, idx = [], []
     for i in range(n_v + 1):

@@ -1,8 +1,4 @@
-"""
-Animated 3D view of the point-mass trajectories (for the demonstration video).
-Trajectories grow over time while the camera slowly rotates.
-Saved as MP4 if ffmpeg is available, otherwise as GIF.
-"""
+
 import os
 import shutil
 import numpy as np

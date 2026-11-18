@@ -1,10 +1,7 @@
 """
 Part 2 (workflow step 4): 3D point-mass simulation of the modulated DS.
-
-For each scene: >= 5 trajectories (above / below / sides of the obstacle),
-nominal vs modulated, Lyapunov V(t), Gamma(t), distance(t), a results table
-and an empirical V_dot < 0 check of the nominal DS.
 """
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,10 +1,6 @@
 """
 Part 3 (workflow steps 5-7): Franka Panda in PyBullet driven by the modulated DS.
 
-For the robot the obstacle is inflated (sf_robot) to cover the gripper envelope
-(~10 cm): only the end-effector point is modulated, so the margin is what keeps
-the hand away from the obstacle. The closest distance between *every* link and
-the obstacle is logged to show where this single-point approach stops working.
 """
 import os
 import numpy as np
@@ -33,7 +29,7 @@ def run(scene_key="A", gui=False, out_dir="figures", sf_robot=2.2, starts=None, 
         rows.append(summarize(lab, log, att))
     ctrl.close()
 
-    # point-mass reference with the same (inflated) obstacle
+    
     field = make_field(scene["ds"], scene["obstacles"])
     pm = {lab: simulate(field, scene["starts"][lab], att, dt=0.005, t_max=t_max)[1] for lab in labels}
 
@@ -52,7 +48,7 @@ def run(scene_key="A", gui=False, out_dir="figures", sf_robot=2.2, starts=None, 
 
 
 def _plots(scene, logs, pm, out_dir, key):
-    # 1) end-effector path vs point-mass path
+    
     fig = plt.figure(figsize=(14, 6))
     for i, (title, el, az) in enumerate([("isometric", 22, -125), ("side (y-z)", 0, 0)]):
         ax = fig.add_subplot(1, 2, i + 1, projection="3d")
@@ -70,7 +66,7 @@ def _plots(scene, logs, pm, out_dir, key):
     fig.tight_layout(rect=(0, 0.05, 1, 1))
     fig.savefig(f"{out_dir}/robot_scene{key}_ee_paths.png", dpi=150, bbox_inches="tight")
 
-    # 2) joints normalised to their limits, distances
+   
     fig, axs = plt.subplots(1, 3, figsize=(16, 4.2))
     lab0 = list(logs)[0]
     log = logs[lab0]
