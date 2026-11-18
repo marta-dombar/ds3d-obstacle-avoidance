@@ -14,7 +14,7 @@ INSTALLATION:
 
 Python 3.10 – 3.13. Use an isolated environment (conda or venv), as in the Lab 2 guide.
 
-```bash
+bash
 #conda
 conda create -n ds3d python=3.11 -y
 conda activate ds3d
