@@ -15,12 +15,12 @@ INSTALLATION:
 Python 3.10 – 3.13. Use an isolated environment (conda or venv), as in the Lab 2 guide.
 
 bash
-# conda
+#conda
 conda create -n ds3d python=3.11 -y
 conda activate ds3d
 pip install -r requirements.txt
 
-# venv
+#venv
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
