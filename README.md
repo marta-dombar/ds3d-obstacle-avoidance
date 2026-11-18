@@ -14,7 +14,7 @@ INSTALLATION:
 
 Python 3.10 – 3.13. Use an isolated environment (conda or venv), as in the Lab 2 guide.
 
-bash
+```bash
 #conda
 conda create -n ds3d python=3.11 -y
 conda activate ds3d
@@ -55,7 +55,7 @@ ds3d/
   simulate.py                RK4 integration and metrics: min Gamma, distance, convergence, V(t)
   scenes.py                  Scenes A (spiral and sphere), B (lifted LPV + ellipsoid), C (saddle point)
   plotting.py                Report figures
-robot/panda_pybullet.py      Panda controller: [Derivate (q) = J†(Derivate (x)·mod)], joint limits, link distance logging
+robot/panda_pybullet.py      Panda controller: [Derivate (q) = J†(q)·Derivate(x)mod], joint limits, link distance logging
 scripts/
   part1_2d.py                2D: Lab 1 DS plugged into the Lab 2 package
   part2_3d.py                3D point mass simulations, figures and tables
