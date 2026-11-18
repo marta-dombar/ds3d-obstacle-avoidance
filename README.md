@@ -55,7 +55,7 @@ ds3d/
   simulate.py                RK4 integration and metrics: min Gamma, distance, convergence, V(t)
   scenes.py                  Scenes A (spiral and sphere), B (lifted LPV + ellipsoid), C (saddle point)
   plotting.py                Report figures
-robot/panda_pybullet.py      Panda controller: [Derivate (q) = J^(Derivate (x)·mod)], joint limits, link distance logging
+robot/panda_pybullet.py      Panda controller: [Derivate (q) = J†(Derivate (x)·mod)], joint limits, link distance logging
 scripts/
   part1_2d.py                2D: Lab 1 DS plugged into the Lab 2 package
   part2_3d.py                3D point mass simulations, figures and tables
@@ -86,7 +86,7 @@ Papers
 5. S. M. Khansari-Zadeh, A. Billard, "Learning stable nonlinear dynamical systems with Gaussian mixture models", IEEE T-RO 27(5), pp. 943-957, 2011 (SEDS).
 Third-party code, libraries and models
 6. Lab 1 code: EPFL-LASA icra19-lfd-tutorial-exercises (exercise1_learning: gui_lpvDS, ds-opt, phys-gmm), https://github.com/epfl-lasa/icra19-lfd-tutorial-exercises, with YALMIP and SeDuMi 1.3. Used to learn lpv_model.mat.
-7. Lab 2 code: L. Huber, dynamic_obstacle_avoidance (exercise2_obstacle, GPL-3.0), included in exercise2_obstacle/ with the patches listed above.
+7. Lab 2 code: L. Huber, dynamic_obstacle_avoidance (exercise2_obstacle, GPL-3.0), included in exercise2_obstacle/ with small patches so it accepts a custom dynamical system.
 8. E. Coumans, Y. Bai, PyBullet, https://pybullet.org; Franka Emika Panda model franka_panda/panda.urdf from pybullet_data.
 9. NumPy, SciPy, Matplotlib.
 
